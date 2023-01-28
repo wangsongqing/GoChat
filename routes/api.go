@@ -66,11 +66,20 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			usersGroup.PUT("/avatar", middlewareapp.AuthJWT(), uc.UpdateAvatar)
 		}
 
+		// 单聊
 		rc := controllers.RelationsController{}
-		relationsGroup := v1.Group("/chat")
+		relationsChat := v1.Group("/chat")
 		{
-			relationsGroup.GET("", middlewareapp.AuthJWT(), rc.List)
-			relationsGroup.POST("/add", middlewareapp.AuthJWT(), rc.Add)
+			relationsChat.GET("", middlewareapp.AuthJWT(), rc.List)
+			relationsChat.POST("/add", middlewareapp.AuthJWT(), rc.Add)
+		}
+
+		// 群聊
+		gc := controllers.GroupController{}
+		relationsGroup := v1.Group("group")
+		{
+			relationsGroup.POST("create_group", middlewareapp.AuthJWT(), gc.CreateGroup)
+			relationsGroup.POST("add_group", middlewareapp.AuthJWT(), gc.Add)
 		}
 
 		mc := controllers.MessageController{}
