@@ -21,7 +21,7 @@ type User struct {
 	Avatar       string `json:"avatar,omitempty"`
 
 	models.CommonTimestampsField
-	ID int
+	//ID int
 }
 
 // ComparePassword 密码是否正确
