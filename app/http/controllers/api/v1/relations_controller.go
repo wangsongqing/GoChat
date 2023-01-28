@@ -22,6 +22,7 @@ func (r *RelationsController) List(c *gin.Context) {
 	})
 }
 
+// Add 添加好友
 func (r *RelationsController) Add(c *gin.Context) {
 	typeName := c.PostForm("type")
 	desc := c.PostForm("desc")

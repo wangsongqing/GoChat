@@ -7,6 +7,7 @@ import (
 	"GoChat/pkg/jwt"
 	"GoChat/pkg/response"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 // LoginController 用户控制器
@@ -65,8 +66,9 @@ func (lc *LoginController) LoginByPassword(c *gin.Context) {
 	}
 
 	userInfo, err := auth.LoginByAccount(request.Account)
+	userId := strconv.Itoa(userInfo.ID)
 	if userInfo.ID > 0 {
-		token := jwt.NewJWT().IssueToken(userInfo.GetStringID(), userInfo.Name)
+		token := jwt.NewJWT().IssueToken(userId, userInfo.Name)
 		response.JSON(c, gin.H{
 			"token": token,
 		})
