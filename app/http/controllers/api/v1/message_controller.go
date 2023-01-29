@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"GoChat/app/models/group_people"
 	"GoChat/pkg/jwt"
 	"encoding/json"
 	"fmt"
@@ -138,6 +139,19 @@ func recProc(node *Node) {
 
 			tarNode.DataQueue <- data
 			fmt.Println("发送成功：", string(data))
+		}
+
+		// 群聊
+		if msg.Type == 2 {
+			groupPeople := group_people.GetGroupMan(msg.TargetId)
+			for _, person := range groupPeople {
+				if person.UserId == int(msg.FormId) { // 群消息不推送给自己
+					continue
+				}
+				i := int64(person.UserId)
+				tarNode, _ := clientMap[i]
+				tarNode.DataQueue <- data
+			}
 		}
 
 	}

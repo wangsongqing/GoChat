@@ -46,11 +46,11 @@ go run main.go
 发送消息的格式
 ```json
 {
-  "TargetId":1, // 接受对象的ID
-  "Type":1, // 消息的类型
+  "TargetId":1, // 信息接收者ID
+  "Type":1, // 消息的类型: 1私聊  2群聊
   "CreateTime":1672996855236,
-  "userId":2, // 发送对象的ID
-  "Media":1,
+  "userId":2, // 信息发送者ID
+  "Media":1, // 信息类型:1文字
   "Content":"在干嘛" // 消息的内容
 }
 ```

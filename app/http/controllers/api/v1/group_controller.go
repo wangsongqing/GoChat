@@ -14,17 +14,15 @@ type GroupController struct {
 
 // CreateGroup 新建群
 func (gc *GroupController) CreateGroup(c *gin.Context) {
-	checkGroup := group.GroupChat{}
-	c.BindJSON(&checkGroup)
+	groupChat := group.GroupChat{}
+	c.BindJSON(&groupChat)
 
-	if len(checkGroup.Name) == 0 {
+	if len(groupChat.Name) == 0 {
 		response.Abort500(c, "群名称不能为空")
 		return
 	}
 
 	userModel := auth.CurrentUser(c)
-	groupChat := group.GroupChat{}
-	groupChat.Name = checkGroup.Name
 	groupChat.OwnerId = userModel.ID
 	res := groupChat.Create()
 
@@ -39,6 +37,7 @@ func (gc *GroupController) CreateGroup(c *gin.Context) {
 	})
 }
 
+// Add 添加用户进群
 func (gc *GroupController) Add(c *gin.Context) {
 	gp := group_people.GroupPeople{}
 	c.BindJSON(&gp)

@@ -5,6 +5,9 @@ import (
 	"GoChat/pkg/database"
 )
 
+// StatusOk 用户群聊状态
+const StatusOk = 1 // 正常
+
 type GroupPeople struct {
 	models.BaseModel
 	models.CommonTimestampsField
