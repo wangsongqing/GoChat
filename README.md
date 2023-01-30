@@ -6,10 +6,12 @@
 - 用户邮箱注册
 - 用户手机登录
 - 用户邮箱登录
+- 获取用户信息
 - 获取好友列表
 - 添加好友
 - 好友私聊
 - 新建群
+- 获取用户群列表
 - 添加用户进群
 - 群聊
 
@@ -59,16 +61,16 @@ go run main.go
 发送消息的格式
 ```json
 {
-  "TargetId":1, // 信息接收者ID
+  "TargetId":1, // 信息接收者ID,如果是群则为群ID
   "Type":1, // 消息的类型: 1私聊  2群聊
-  "CreateTime":1672996855236,
+  "CreateTime":1675050402,// 消息时间戳
   "userId":2, // 信息发送者ID
   "Media":1, // 信息类型:1文字
-  "Content":"在干嘛" // 消息的内容
+  "Content":"在干嘛呢？" // 消息的内容
 }
 ```
 ---
 
-框架开发方式具体请看:[GoLaravel框架](https://github.com/wangsongqing/GoLaravel)
+该项目的开发框架是我自己写的一个开源项目，具体请点击链接:[GoLaravel框架](https://github.com/wangsongqing/GoLaravel)
 
 
