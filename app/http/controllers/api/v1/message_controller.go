@@ -148,8 +148,11 @@ func recProc(node *Node) {
 				if person.UserId == int(msg.FormId) { // 群消息不推送给自己
 					continue
 				}
-				i := int64(person.UserId)
-				tarNode, _ := clientMap[i]
+				NodeId := int64(person.UserId)
+				tarNode, ok := clientMap[NodeId]
+				if !ok {
+					zap.S().Info("用户没在线", NodeId)
+				}
 				tarNode.DataQueue <- data
 			}
 		}
