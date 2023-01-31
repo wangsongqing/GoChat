@@ -26,6 +26,12 @@ func GetUser(id int) (userModel User) {
 	return
 }
 
+func IsUserExist(id int) bool {
+	var count int64
+	database.DB.Model(User{}).Where("id = ?", id).Count(&count)
+	return count > 0
+}
+
 func GetByPhone(phone string) (userModel User) {
 	database.DB.Where("phone = ?", phone).Find(&userModel)
 	return

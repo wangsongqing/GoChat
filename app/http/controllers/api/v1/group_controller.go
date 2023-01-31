@@ -3,6 +3,7 @@ package v1
 import (
 	"GoChat/app/models/group"
 	"GoChat/app/models/group_people"
+	"GoChat/app/models/user"
 	"GoChat/pkg/auth"
 	"GoChat/pkg/response"
 	"github.com/gin-gonic/gin"
@@ -44,6 +45,22 @@ func (gc *GroupController) Add(c *gin.Context) {
 
 	if gp.GroupId == 0 || gp.UserId == 0 {
 		response.Abort500(c, "group_id和user_id为必填")
+		return
+	}
+
+	if isUser := user.IsUserExist(gp.UserId); isUser == false {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "用户ID不存在",
+		})
+		return
+	}
+
+	if ok := group_people.IsExistGroup(gp.UserId, gp.GroupId); ok == true {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "你已经在群里了",
+		})
 		return
 	}
 
