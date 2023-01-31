@@ -55,3 +55,39 @@ func (gc *GroupController) Add(c *gin.Context) {
 		"msg":  "success",
 	})
 }
+
+// PopGroupPeople 用户退群
+func (gc *GroupController) PopGroupPeople(c *gin.Context) {
+	gp := group_people.GroupPeople{}
+	c.BindJSON(&gp)
+
+	if gp.GroupId == 0 {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "group_id能不能为空",
+		})
+		return
+	}
+
+	userModel := auth.CurrentUser(c)
+	if userModel.ID == 0 {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "用户错误",
+		})
+		return
+	}
+	//status := map[string]int{"status": 3}
+	if result := gp.UpdateStatus(gp.GroupId, userModel.ID); result == 0 {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "退群失败",
+		})
+		return
+	}
+
+	response.JSON(c, gin.H{
+		"code": 1,
+		"msg":  "success",
+	})
+}

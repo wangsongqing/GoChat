@@ -21,3 +21,8 @@ func (g *GroupPeople) Create() int64 {
 	res := database.DB.Create(&g)
 	return res.RowsAffected
 }
+
+func (g *GroupPeople) UpdateStatus(GroupId int, UserId int) int64 {
+	res := database.DB.Model(GroupPeople{}).Where("group_id = ? and user_id = ?", GroupId, UserId).Update("status", 3)
+	return res.RowsAffected
+}

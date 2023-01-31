@@ -72,6 +72,7 @@ func RegisterAPIRoutes(r *gin.Engine) {
 		{
 			relationsChat.GET("", middlewareapp.AuthJWT(), rc.List)
 			relationsChat.POST("/add", middlewareapp.AuthJWT(), rc.Add)
+			relationsChat.POST("/del", middlewareapp.AuthJWT(), rc.DelRelations)
 		}
 
 		// 群聊
@@ -80,6 +81,7 @@ func RegisterAPIRoutes(r *gin.Engine) {
 		{
 			relationsGroup.POST("create_group", middlewareapp.AuthJWT(), gc.CreateGroup)
 			relationsGroup.POST("add_group", middlewareapp.AuthJWT(), gc.Add)
+			relationsGroup.POST("pop_group_people", middlewareapp.AuthJWT(), gc.PopGroupPeople)
 		}
 
 		mc := controllers.MessageController{}
