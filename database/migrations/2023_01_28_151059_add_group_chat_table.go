@@ -17,6 +17,7 @@ func init() {
 		OwnerId int    `gorm:"type:int(11);index;default:0;not null"`
 		Type    int    `gorm:"type:int(11);not null;default:0"`
 		Desc    string `gorm:"type:varchar(255);not null;default:''"`
+		Status  int    `gorm:"type:int(11);not null;default:0"`
 
 		models.CommonTimestampsField
 	}

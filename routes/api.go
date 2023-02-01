@@ -82,6 +82,7 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			relationsGroup.POST("create_group", middlewareapp.AuthJWT(), gc.CreateGroup)
 			relationsGroup.POST("add_group", middlewareapp.AuthJWT(), gc.Add)
 			relationsGroup.POST("pop_group_people", middlewareapp.AuthJWT(), gc.PopGroupPeople)
+			relationsGroup.POST("del", middlewareapp.AuthJWT(), gc.DelGroup)
 		}
 
 		mc := controllers.MessageController{}

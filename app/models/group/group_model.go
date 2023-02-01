@@ -13,6 +13,7 @@ type GroupChat struct {
 	OwnerId int    `json:"owner_id"`
 	Type    int    `json:"type"`
 	Desc    string `json:"desc"`
+	Status  int    `json:"status"`
 }
 
 func (gc *GroupChat) Create() int64 {

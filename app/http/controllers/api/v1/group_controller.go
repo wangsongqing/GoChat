@@ -108,3 +108,41 @@ func (gc *GroupController) PopGroupPeople(c *gin.Context) {
 		"msg":  "success",
 	})
 }
+
+// DelGroup 解散群
+func (gc *GroupController) DelGroup(c *gin.Context) {
+	groupData := group.GroupChat{}
+
+	c.BindJSON(&groupData)
+
+	if groupData.ID == 0 {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "群ID 为必填",
+		})
+		return
+	}
+
+	userModel := auth.CurrentUser(c)
+	groupInfo := group.GetGroupInfo(groupData.ID)
+	if groupInfo.OwnerId != userModel.ID {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "该群不属于你，你暂时没有权限解散，请确认~",
+		})
+		return
+	}
+
+	if ok := group.UpdateStatus(groupData.ID); ok == 0 {
+		response.JSON(c, gin.H{
+			"code": -1,
+			"msg":  "群解散失败，请重新再试~",
+		})
+		return
+	}
+
+	response.JSON(c, gin.H{
+		"code": 1,
+		"msg":  "success",
+	})
+}
