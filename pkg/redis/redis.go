@@ -77,6 +77,29 @@ func (rds RedisClient) Get(key string) string {
 	return result
 }
 
+// Lpush redis数据写入队列
+func (rds RedisClient) Lpush(key string, value interface{}) bool {
+	err := rds.Client.LPush(rds.Context, key, value).Err()
+	if err != nil {
+		logger.ErrorString("Redis", "LPush", err.Error())
+		return false
+	}
+
+	return true
+}
+
+// Rpop 数据队列出列
+func (rds RedisClient) Rpop(key string) string {
+	data, err := rds.Client.RPop(rds.Context, key).Result()
+
+	if err != nil {
+		logger.ErrorString("Redis", "RPop", err.Error())
+		return ""
+	}
+
+	return data
+}
+
 // Has 判断一个 key 是否存在，内部错误和 redis.Nil 都返回 false
 func (rds RedisClient) Has(key string) bool {
 	_, err := rds.Client.Get(rds.Context, key).Result()

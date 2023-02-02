@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// CmdJobName 运行命令  go run main.go job job_name
 var CmdJobName = &cobra.Command{
 	Use:   "job_name",
 	Short: "HERE PUTS THE COMMAND DESCRIPTION",

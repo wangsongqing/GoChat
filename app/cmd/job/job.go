@@ -13,5 +13,6 @@ var Job = &cobra.Command{
 func init() {
 	Job.AddCommand(
 		CmdJobName,
+		CmdPopChatLog,
 	)
 }

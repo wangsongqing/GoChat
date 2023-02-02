@@ -58,6 +58,7 @@ func main() {
 		cmd.CmdDBSeed,
 		cmd.CmdCache,
 		job.Job,
+		job.CmdPopChatLog,
 		consoleCmd.Console,
 	)
 

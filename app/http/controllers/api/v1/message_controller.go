@@ -3,6 +3,7 @@ package v1
 import (
 	"GoChat/app/models/group_people"
 	"GoChat/pkg/jwt"
+	"GoChat/pkg/redis"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,7 @@ type Message struct {
 	Type     int    //聊天类型：群聊 私聊 广播
 	Media    int    //信息类型：文字 图片 音频
 	Content  string //消息内容
-	Pic      string `json:"url"` //图片相关
+	Pic      string `json:"pic"` //图片相关
 	Url      string //文件相关
 	Desc     string //文件描述
 	Amount   int    //其他数据大小
@@ -139,6 +140,13 @@ func recProc(node *Node) {
 
 			tarNode.DataQueue <- data
 			fmt.Println("发送成功：", string(data))
+
+			// 记录聊天信息到redis，异步写入数据库
+			LogKey := "go_chat_log"
+			data, _ := json.Marshal(&msg)
+			if ok := redis.Redis.Lpush(LogKey, data); ok == false {
+				zap.S().Info("聊天记录写入redis失败", msg.TargetId)
+			}
 		}
 
 		// 群聊
