@@ -48,9 +48,23 @@ create database go_chat
 ```azure
 go run main.go migrate up
 ```
+
+- 配置redis
+```json
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_PASSWORD=
+REDIS_CACHE_DB=0
+REDIS_MAIN_DB=1
+```
 - 运行项目
 ```azure
 go run main.go
+```
+
+- 运行脚本聊天记录异步写到数据
+```json
+go run main.go job pop_chat_log
 ```
 
 [测试链接](http://www.websocket-test.com/)
