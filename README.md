@@ -8,6 +8,7 @@
 - 用户邮箱登录
 - 获取用户信息
 - 获取好友列表
+- 获取聊天记录
 - 添加好友
 - 好友私聊
 - 新建群
@@ -62,7 +63,7 @@ REDIS_MAIN_DB=1
 go run main.go
 ```
 
-- 运行脚本聊天记录异步写到数据
+- 运行job脚本同步聊天记录到到数据
 ```json
 go run main.go job pop_chat_log
 ```

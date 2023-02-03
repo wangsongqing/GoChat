@@ -129,6 +129,7 @@ func recProc(node *Node) {
 			zap.S().Info("json解析失败", err)
 			return
 		}
+		LogKey := "go_chat_log"
 
 		if msg.Type == 1 {
 			zap.S().Info("这是一条私信:", msg.Content)
@@ -142,14 +143,13 @@ func recProc(node *Node) {
 			fmt.Println("发送成功：", string(data))
 
 			// 记录聊天信息到redis，异步写入数据库
-			LogKey := "go_chat_log"
 			data, _ := json.Marshal(&msg)
 			if ok := redis.Redis.Lpush(LogKey, data); ok == false {
 				zap.S().Info("聊天记录写入redis失败", msg.TargetId)
 			}
 		}
 
-		// 群聊
+		// 群聊  如果type=2，那么target_id就是群ID
 		if msg.Type == 2 {
 			groupPeople := group_people.GetGroupMan(msg.TargetId)
 			for _, person := range groupPeople {
@@ -162,9 +162,13 @@ func recProc(node *Node) {
 					zap.S().Info("用户没在线", NodeId)
 				}
 				tarNode.DataQueue <- data
+
+				data, _ := json.Marshal(&msg)
+				if ok := redis.Redis.Lpush(LogKey, data); ok == false {
+					zap.S().Info("聊天记录写入redis失败", msg.TargetId)
+				}
 			}
 		}
-
 	}
 }
 

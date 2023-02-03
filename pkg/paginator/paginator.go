@@ -89,6 +89,40 @@ func Paginate(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, per
 	}
 }
 
+func PaginateChatLog(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, perPage int, userId int, targetId int) Paging {
+
+	// 初始化 Paginator 实例
+	p := &Paginator{
+		query: db,
+		ctx:   c,
+	}
+	p.initProperties(perPage, baseURL)
+
+	// 查询数据库
+	err := p.query.Preload(clause.Associations). // 读取关联
+							Where("user_id = ? and target_id = ?", userId, targetId).
+							Order("id desc").
+							Limit(p.PerPage).
+							Offset(p.Offset).
+							Find(data).
+							Error
+
+	// 数据库出错
+	if err != nil {
+		logger.LogIf(err)
+		return Paging{}
+	}
+
+	return Paging{
+		CurrentPage: p.Page,
+		PerPage:     p.PerPage,
+		TotalPage:   p.TotalPage,
+		TotalCount:  p.TotalCount,
+		NextPageURL: p.getNextPageURL(),
+		PrevPageURL: p.getPrevPageURL(),
+	}
+}
+
 // 初始化分页必须用到的属性，基于这些属性查询数据库
 func (p *Paginator) initProperties(perPage int, baseURL string) {
 

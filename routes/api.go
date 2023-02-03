@@ -85,6 +85,12 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			relationsGroup.POST("del", middlewareapp.AuthJWT(), gc.DelGroup)
 		}
 
+		cc := controllers.ChatLogController{}
+		chatLogGroup := v1.Group("chat_log")
+		{
+			chatLogGroup.GET("list", middlewareapp.AuthJWT(), cc.List)
+		}
+
 		mc := controllers.MessageController{}
 		messageGroup := v1.Group("msg")
 		{
