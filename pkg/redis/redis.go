@@ -93,7 +93,6 @@ func (rds RedisClient) Rpop(key string) string {
 	data, err := rds.Client.RPop(rds.Context, key).Result()
 
 	if err != nil {
-		logger.ErrorString("Redis", "RPop", err.Error())
 		return ""
 	}
 
