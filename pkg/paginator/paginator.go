@@ -89,7 +89,7 @@ func Paginate(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, per
 	}
 }
 
-func PaginateChatLog(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, perPage int, userId int, targetId int) Paging {
+func PaginateChatLog(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, perPage int, userId int, targetId int, typeId int) Paging {
 
 	// 初始化 Paginator 实例
 	p := &Paginator{
@@ -99,18 +99,32 @@ func PaginateChatLog(c *gin.Context, db *gorm.DB, data interface{}, baseURL stri
 	p.initProperties(perPage, baseURL)
 
 	// 查询数据库
-	err := p.query.Preload(clause.Associations). // 读取关联
-							Where("user_id = ? and target_id = ?", userId, targetId).
-							Order("id desc").
-							Limit(p.PerPage).
-							Offset(p.Offset).
-							Find(data).
-							Error
-
-	// 数据库出错
-	if err != nil {
-		logger.LogIf(err)
-		return Paging{}
+	if typeId == 2 {
+		err := p.query.Preload(clause.Associations). // 读取群聊天记录
+								Where("target_id = ? and type = ?", targetId, typeId).
+								Order("id desc").
+								Limit(p.PerPage).
+								Offset(p.Offset).
+								Find(data).
+								Error
+		// 数据库出错
+		if err != nil {
+			logger.LogIf(err)
+			return Paging{}
+		}
+	} else {
+		err := p.query.Preload(clause.Associations). // 读取群聊天记录
+								Where("user_id = ? and target_id = ?", userId, targetId).
+								Order("id desc").
+								Limit(p.PerPage).
+								Offset(p.Offset).
+								Find(data).
+								Error
+		// 数据库出错
+		if err != nil {
+			logger.LogIf(err)
+			return Paging{}
+		}
 	}
 
 	return Paging{

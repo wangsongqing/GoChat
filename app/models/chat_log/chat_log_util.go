@@ -8,7 +8,7 @@ import (
 )
 
 // Paginate 分页内容
-func Paginate(c *gin.Context, perPage int, userId int, targetId int) (chatLog []ChatLog, paging paginator.Paging) {
+func Paginate(c *gin.Context, perPage int, userId int, targetId int, typeId int) (chatLog []ChatLog, paging paginator.Paging) {
 	paging = paginator.PaginateChatLog(
 		c,
 		database.DB.Model(ChatLog{}),
@@ -17,6 +17,7 @@ func Paginate(c *gin.Context, perPage int, userId int, targetId int) (chatLog []
 		perPage,
 		userId,
 		targetId,
+		typeId,
 	)
 	return
 }
