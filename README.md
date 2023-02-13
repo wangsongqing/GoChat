@@ -24,9 +24,7 @@
 - zap -- 高新能日志方案
 - Gorm -- 数据库操作
 - Cobra -- 命令行结构
-- limiter -- 限流器
 - Jwt -- JWT操作
-- 构建docker镜像
 
 ### 1. 运行项目
 
