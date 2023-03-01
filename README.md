@@ -77,7 +77,7 @@ go run main.go job pop_chat_log
 {
   "TargetId":1, // 信息接收者ID,如果是群则为群ID
   "Type":1, // 消息的类型: 1私聊  2群聊
-  "CreateTime":1675050402,// 消息时间戳
+  "CreateTime":1675050402,// 发送消息时间戳
   "userId":2, // 信息发送者ID
   "Media":1, // 信息类型:1文字
   "Content":"在干嘛呢？" // 消息的内容
